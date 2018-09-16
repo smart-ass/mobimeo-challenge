@@ -11,13 +11,13 @@ import scala.util.control.NonFatal
 @Singleton
 class DelayRepo {
 
-  private val delayByLine: Map[String, Delay] = loadDelays().map { delay => delay.lineName -> delay }.toMap
+  private val delayByLine: Map[String, Delay] = loadData().map { delay => delay.lineName -> delay }.toMap
 
   def findByLine(lineName: String): Option[Delay] = {
     delayByLine.get(lineName)
   }
 
-  private def loadDelays(): Seq[Delay] = {
+  private def loadData(): Seq[Delay] = {
     try {
       CsvMapper.readAndMap(Resources.file("data/delays.csv"), {
         case lineName :: delay :: Nil if delay.isNonNegativeInt => Delay(lineName, delay.toInt)
