@@ -2,7 +2,7 @@ name := "MobimeoBackendChallenge"
 
 version := "1.0"
 
-lazy val `weltdechallenge` = (project in file(".")).enablePlugins(PlayScala)
+lazy val `mobimeochallenge` = (project in file(".")).enablePlugins(PlayScala)
 
 resolvers += "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases"
 
@@ -12,6 +12,7 @@ scalaVersion := "2.12.2"
 
 libraryDependencies ++= Seq(
   guice,
+  "com.github.tototoshi" %% "scala-csv" % "1.3.5",
   "org.scalatest" %% "scalatest" % "3.0.5" % Test,
   "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test
 )
