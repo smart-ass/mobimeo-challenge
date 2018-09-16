@@ -2,7 +2,7 @@ package controllers
 
 import java.time.LocalTime
 
-import model.http.GetVehiclesRequest
+import model.http.GetLinesRequest
 import org.scalatest.{Assertion, MustMatchers}
 import org.scalatestplus.play.PlaySpec
 import play.api.http.Status
@@ -18,15 +18,15 @@ class ApiControllerSpec extends PlaySpec with SpecWithPlayApp with MustMatchers 
 
       "respond with the list of the vehicles for a given time and coordinates" in {
 
-        def test(request: GetVehiclesRequest, expectedVehicleIds: Seq[Int]): Assertion = {
+        def test(request: GetLinesRequest, expectedVehicleIds: Seq[Int]): Assertion = {
           val result = call(controller.getLines(request), FakeRequest(method = "GET", path = "/lines"))
           status(result) mustBe Status.OK
           val json = contentAsJson(result)
           json mustBe JsArray(expectedVehicleIds.sorted.map(JsNumber(_)))
         }
 
-        test(GetVehiclesRequest(LocalTime.parse("10:01:00"), 1, 1), Seq(0))
-        test(GetVehiclesRequest(LocalTime.parse("10:06:00"), 3, 4), Seq(1))
+        test(GetLinesRequest(LocalTime.parse("10:01:00"), 1, 1), Seq(0))
+        test(GetLinesRequest(LocalTime.parse("10:06:00"), 3, 4), Seq(1))
       }
   }
 
