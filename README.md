@@ -18,4 +18,5 @@ Things that could be done better:
  * Data validation. Depending on our requirements and data quality, we could implement more strict global validation
  (check that data in different files are consistent) or being more resilient to imperfect data
  * Abstraction over Repo. In this task there're only csv based implementations. In the real app we may need to
- have a basic interface with a few inheritors (csv based, db based, etc) 
+ have a basic interface with a few inheritors (csv based, db based, etc).
+ * Data loading and parsing should be done outside repos. 
