@@ -19,7 +19,7 @@ class ApiControllerSpec extends PlaySpec with SpecWithPlayApp with MustMatchers 
       "respond with the list of the vehicles for a given time and coordinates" in {
 
         def test(request: GetVehiclesRequest, expectedVehicleIds: Seq[Int]): Assertion = {
-          val result = call(controller.getVehicles(request), FakeRequest(method = "GET", path = "/lines"))
+          val result = call(controller.getLines(request), FakeRequest(method = "GET", path = "/lines"))
           status(result) mustBe Status.OK
           val json = contentAsJson(result)
           json mustBe JsArray(expectedVehicleIds.sorted.map(JsNumber(_)))

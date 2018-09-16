@@ -1,4 +1,4 @@
-GET     /lines                      controllers.ApiController.getVehicles(request: model.http.GetVehiclesRequest)
+GET     /lines                      controllers.ApiController.getLines(request: model.http.GetVehiclesRequest)
 
 GET     /lines/:name                controllers.ApiController.isLineDelayed(name: String)
 
