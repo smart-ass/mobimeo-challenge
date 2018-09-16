@@ -12,17 +12,17 @@ class ScheduleService @Inject()(delayRepo: DelayRepo,
                                 lineRepo: LineRepo) {
 
   /**
-    * Returns the line ids for a given time and coordinates
+    * Returns the ordered list of line ids for a given time and coordinates
     */
   def getLineIds(time: LocalTime, x: Int, y: Int): Seq[Int] = {
-    for {
+    (for {
       stop <- stopRepo.findByCoordinates(x, y)
       stopTiming <- stopTimingRepo.findById(stop.id)
       line <- lineRepo.getById(stopTiming.lineId)
       delayInMins = delayRepo.findByLine(line.name).map(_.value).getOrElse(0)
       correctedTime = stopTiming.time.plusMinutes(delayInMins)
       if correctedTime.equals(time)
-    } yield line.id
+    } yield line.id).sorted
   }
 
   /**
