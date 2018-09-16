@@ -45,7 +45,7 @@ class ApiControllerSpec extends PlaySpec with SpecWithPlayApp with MustMatchers 
       "respond with 404" in {
         val nonExistingLine = "14"
         val result = call(
-          controller.isLineBusy(nonExistingLine),
+          controller.isLineDelayed(nonExistingLine),
           FakeRequest(method = "GET", path = s"/lines/$nonExistingLine")
         )
 
@@ -57,27 +57,27 @@ class ApiControllerSpec extends PlaySpec with SpecWithPlayApp with MustMatchers 
       "respond with true" in {
         val lineName = "M4"
         val result = call(
-          controller.isLineBusy(lineName),
+          controller.isLineDelayed(lineName),
           FakeRequest(method = "GET", path = s"/lines/$lineName")
         )
 
         status(result) mustBe Status.OK
-        val json = contentAsJson(result)
-        json mustBe JsBoolean(true)
+        val content = contentAsString(result)
+        content mustBe "true"
       }
     }
 
     "line is currently not delayed" should {
       "respond with false" in {
-        val lineName = "S75"
+        val lineName = "Test"
         val result = call(
-          controller.isLineBusy(lineName),
+          controller.isLineDelayed(lineName),
           FakeRequest(method = "GET", path = s"/lines/$lineName")
         )
 
         status(result) mustBe Status.OK
-        val json = contentAsJson(result)
-        json mustBe JsBoolean(false)
+        val content = contentAsString(result)
+        content mustBe "false"
       }
     }
   }

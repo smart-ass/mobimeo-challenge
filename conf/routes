@@ -1,6 +1,6 @@
 GET     /lines                      controllers.ApiController.getVehicles(request: model.http.GetVehiclesRequest)
 
-GET     /lines/:name                controllers.ApiController.isLineBusy(name: String)
+GET     /lines/:name                controllers.ApiController.isLineDelayed(name: String)
 
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
