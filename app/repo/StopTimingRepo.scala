@@ -16,8 +16,8 @@ class StopTimingRepo {
 
   private val stopTimingsByStopId: Map[Int, Seq[StopTiming]] = loadData().groupBy(_.stopId)
 
-  def findByIds(stopIds: Seq[Int]): Seq[StopTiming] = {
-    stopIds.flatMap(stopId => stopTimingsByStopId.getOrElse(stopId, Seq.empty))
+  def findById(stopId: Int): Seq[StopTiming] = {
+    stopTimingsByStopId.getOrElse(stopId, Seq.empty)
   }
 
   private def loadData(): Seq[StopTiming] = {

@@ -15,16 +15,14 @@ class ScheduleService @Inject()(delayRepo: DelayRepo,
     * Returns the line ids for a given time and coordinates
     */
   def getLineIds(time: LocalTime, x: Int, y: Int): Seq[Int] = {
-    val stops = stopRepo.findByCoordinate(x, y)
-    val stopTimings = stopTimingRepo.findByIds(stops.map(_.id))
-
-    stopTimings.flatMap { stopTiming =>
-      val lineName = lineRepo.getById(stopTiming.lineId).name
-      val delayInMins = delayRepo.findByLine(lineName).map(_.value).getOrElse(0)
-      val correctedTime = stopTiming.time.plusMinutes(delayInMins)
-      if (correctedTime.equals(time)) Some(stopTiming.lineId)
-      else None
-    }
+    for {
+      stop <- stopRepo.findByCoordinates(x, y)
+      stopTiming <- stopTimingRepo.findById(stop.id)
+      line <- lineRepo.getById(stopTiming.lineId)
+      delayInMins = delayRepo.findByLine(line.name).map(_.value).getOrElse(0)
+      correctedTime = stopTiming.time.plusMinutes(delayInMins)
+      if correctedTime.equals(time)
+    } yield line.id
   }
 
   /**

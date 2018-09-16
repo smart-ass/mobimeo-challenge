@@ -13,8 +13,8 @@ class LineRepo {
 
   private val lineById: Map[Int, Line] = loadData().map { line => line.id -> line }.toMap
 
-  def getById(id: Int): Line = {
-    lineById(id)
+  def getById(id: Int): Option[Line] = {
+    lineById.get(id)
   }
 
   private def loadData(): Seq[Line] = {

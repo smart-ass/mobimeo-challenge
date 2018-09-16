@@ -13,7 +13,7 @@ class StopRepo {
 
   private val stopByCoordinates: Map[(Int, Int), Seq[Stop]] = loadData().groupBy(stop => (stop.x, stop.y))
 
-  def findByCoordinate(x: Int, y: Int): Seq[Stop] = {
+  def findByCoordinates(x: Int, y: Int): Seq[Stop] = {
     stopByCoordinates.getOrElse((x, y), Seq.empty)
   }
 
