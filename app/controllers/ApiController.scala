@@ -1,7 +1,7 @@
 package controllers
 
 import javax.inject.{Inject, Singleton}
-import model.GetVehiclesRequest
+import model.http.GetVehiclesRequest
 import play.api.Logger
 import play.api.libs.json.{JsObject, Json}
 import play.api.mvc.{AbstractController, ControllerComponents}

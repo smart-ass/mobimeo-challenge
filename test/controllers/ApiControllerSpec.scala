@@ -2,7 +2,7 @@ package controllers
 
 import java.time.LocalTime
 
-import model.GetVehiclesRequest
+import model.http.GetVehiclesRequest
 import org.scalatest.MustMatchers
 import org.scalatestplus.play.PlaySpec
 import play.api.http.Status
