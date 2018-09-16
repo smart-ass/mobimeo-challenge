@@ -3,10 +3,10 @@ package controllers
 import java.time.LocalTime
 
 import model.http.GetVehiclesRequest
-import org.scalatest.MustMatchers
+import org.scalatest.{Assertion, MustMatchers}
 import org.scalatestplus.play.PlaySpec
 import play.api.http.Status
-import play.api.libs.json.{JsBoolean, Json}
+import play.api.libs.json.{JsArray, JsNumber}
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
 
@@ -14,32 +14,23 @@ class ApiControllerSpec extends PlaySpec with SpecWithPlayApp with MustMatchers 
 
   private val controller = injector.instanceOf[ApiController]
 
-  "UserController#getVehicles" when {
+  "UserController#getVehicles" should {
 
-    "request is malformed" should {
-      "respond with 400" in {
-        val result = call(
-          controller.getVehicles(null),
-          FakeRequest(method = "GET", path = "/lines?timestamp=10:00:00")
-        )
-        status(result) mustBe Status.BAD_REQUEST
-      }
-    }
-
-    "request is valid" should {
       "respond with the list of the vehicles for a given time and coordinates" in {
-        val result = call(
-          controller.getVehicles(GetVehiclesRequest(LocalTime.parse("10:00:00"), 10, 12)),
-          FakeRequest(method = "GET", path = "/lines")
-        )
-        status(result) mustBe Status.OK
-        val json = contentAsJson(result)
-        json mustBe Json.obj("field" -> "value")
+
+        def test(request: GetVehiclesRequest, expectedVehicleIds: Seq[Int]): Assertion = {
+          val result = call(controller.getVehicles(request), FakeRequest(method = "GET", path = "/lines"))
+          status(result) mustBe Status.OK
+          val json = contentAsJson(result)
+          json mustBe JsArray(expectedVehicleIds.sorted.map(JsNumber(_)))
+        }
+
+        test(GetVehiclesRequest(LocalTime.parse("10:01:00"), 1, 1), Seq(0))
+        test(GetVehiclesRequest(LocalTime.parse("10:06:00"), 3, 4), Seq(1))
       }
-    }
   }
 
-  "UserController#isLineBusy" when {
+  "UserController#isLineDelayed" when {
 
     "line doesn't exist" should {
       "respond with 404" in {

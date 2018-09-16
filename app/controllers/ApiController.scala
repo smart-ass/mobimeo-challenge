@@ -2,8 +2,7 @@ package controllers
 
 import javax.inject.{Inject, Singleton}
 import model.http.GetVehiclesRequest
-import play.api.Logger
-import play.api.libs.json.{JsObject, Json}
+import play.api.libs.json.{JsArray, JsNumber}
 import play.api.mvc.{AbstractController, ControllerComponents}
 import service.ScheduleService
 
@@ -12,8 +11,9 @@ class ApiController @Inject()(cc: ControllerComponents,
                               scheduleService: ScheduleService) extends AbstractController(cc) {
 
   def getVehicles(getVehiclesRequest: GetVehiclesRequest) = Action {
-    Logger.debug(getVehiclesRequest.toString)
-    Ok(Json.toJson(JsObject.empty))
+    import getVehiclesRequest._
+    val ids = scheduleService.getVehicleIds(timestamp, x, y)
+    Ok(JsArray(ids.map(JsNumber(_))))
   }
 
   def isLineDelayed(name: String) = Action {
