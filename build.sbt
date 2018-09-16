@@ -16,4 +16,4 @@ libraryDependencies ++= Seq(
   "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test
 )
 
-      
+PlayKeys.devSettings := Seq("play.server.http.port" -> "8081")
