@@ -1,3 +1,3 @@
 package model
 
-case class Delay(lineName: String, delay: Int)
+case class Delay(lineName: String, value: Int)
